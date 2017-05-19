@@ -52,15 +52,15 @@ def toPyObject(variant):
     for QVariant does not export it just return the object unchanged.
 
     """
+    return variant
 
-    if not HAS_QVARIANT:
-        return variant
-    elif isinstance(variant, QVariant):
-        return variant.toPyObject()
-    else:
-        return variant
-        #raise TypeError("Expected a 'QVariant' got '{}'."
-        #                .format(type(variant).__name__))
+    #if not HAS_QVARIANT:
+    #    return variant
+    #elif isinstance(variant, QVariant):
+    #    return variant.toPyObject()
+    #else:
+    #    raise TypeError("Expected a 'QVariant' got '{}'."
+    #                    .format(type(variant).__name__))
 
 
 def qunwrap(variant):
@@ -69,11 +69,11 @@ def qunwrap(variant):
 
     return variant
 
-    value = toPyObject(variant)
-    if HAS_QSTRING: #and isinstance(value, PyQt5.QtCore.QString):
-        return six.text_type(value)
-    else:
-        return value
+    #value = toPyObject(variant)
+    #if HAS_QSTRING: #and isinstance(value, PyQt5.QtCore.QString):
+    #    return six.text_type(value)
+    #else:
+    #    return value
 
 
 
@@ -81,10 +81,10 @@ def qwrap(obj):
 
     return obj
 
-    if HAS_QVARIANT and not isinstance(obj, QVariant):
-        return QVariant(obj)
-    else:
-        return obj
+    #if HAS_QVARIANT and not isinstance(obj, QVariant):
+    #    return QVariant(obj)
+    #else:
+    #    return obj
 
 
 def _check_error(value_status):
@@ -114,6 +114,7 @@ def qvariant_to_py(variant, py_type):
         raise TypeError("Unsuported type {0!s}".format(py_type))
 
 
+'''
 if not QSETTINGS_HAS_TYPE:
     _QSettings = QSettings
 
@@ -141,3 +142,4 @@ if not QSETTINGS_HAS_TYPE:
                 value = qvariant_to_py(value, type)
 
             return value
+'''

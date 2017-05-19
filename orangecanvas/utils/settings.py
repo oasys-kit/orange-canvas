@@ -21,7 +21,7 @@ pyqtWrapperType = type(QObject)
 from . import toPyObject
 
 # Import QSettings from qtcompat module (compatibility with PyQt < 4.8.3
-from .qtcompat import QSettings
+from PyQt5.QtCore import QSettings
 
 log = logging.getLogger(__name__)
 

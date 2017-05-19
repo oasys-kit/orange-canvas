@@ -307,8 +307,7 @@ class QuickCategoryToolbar(ToolGrid):
 
         item = qunwrap(action.data())  # QPersistentModelIndex
 
-        print(item.__class__)
-        #assert isinstance(item, QPersistentModelIndex)
+        assert isinstance(item, QPersistentModelIndex)
 
         brush = qunwrap(item.data(Qt.BackgroundRole))
         if not isinstance(brush, QBrush):
