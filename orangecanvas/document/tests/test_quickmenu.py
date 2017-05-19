@@ -1,6 +1,6 @@
 from __future__ import print_function
-from PyQt4.QtGui import QStringListModel
-from PyQt4.QtCore import QPoint
+from PyQt5.QtGui import QStringListModel
+from PyQt5.QtCore import QPoint
 
 from ..quickmenu import QuickMenu, SuggestMenuPage, FlattenedTreeItemModel, \
                         MenuPage, QAction

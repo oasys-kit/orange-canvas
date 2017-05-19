@@ -15,14 +15,18 @@ from ..utils.propertybindings import (
     AbstractBoundProperty, PropertyBinding, BindingManager
 )
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QWidget, QMainWindow, QComboBox, QCheckBox, QListView, QTabWidget,
     QToolBar, QAction, QStackedWidget, QVBoxLayout, QHBoxLayout,
-    QFormLayout, QStandardItemModel, QStandardItem, QSizePolicy,
+    QFormLayout, QSizePolicy,
     QDialogButtonBox
 )
 
-from PyQt4.QtCore import (
+from PyQt5.QtGui import (
+    QStandardItemModel, QStandardItem
+)
+
+from PyQt5.QtCore import (
     Qt, QEventLoop, QAbstractItemModel, QModelIndex
 )
 

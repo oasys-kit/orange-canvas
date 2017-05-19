@@ -8,12 +8,16 @@ import traceback
 
 from contextlib import contextmanager
 
-from PyQt4.QtGui import (
-    QWidget, QMessageBox, QGradient, QLinearGradient, QRadialGradient, QBrush,
-    QPainter, QStyleOption, QStyle
+from PyQt5.QtWidgets import (
+    QWidget, QMessageBox, QStyleOption, QStyle
 )
 
-from PyQt4.QtCore import QPointF
+from PyQt5.QtGui import (
+    QGradient, QLinearGradient, QRadialGradient, QBrush,
+    QPainter
+)
+
+from PyQt5.QtCore import QPointF
 
 import sip
 
@@ -63,7 +67,7 @@ def StyledWidget_paintEvent(self, event):
     """A default styled QWidget subclass  paintEvent function.
     """
     opt = QStyleOption()
-    opt.init(self)
+    opt.initFrom(self)
     painter = QPainter(self)
     self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
 
@@ -104,7 +108,7 @@ def has_x11():
     Is Qt build against X11 server.
     """
     try:
-        from PyQt4.QtGui import QX11Info
+        from PyQt5.QtGui import QX11Info
         return True
     except ImportError:
         return False
@@ -114,7 +118,7 @@ def is_x11_compositing_enabled():
     """Is X11 compositing manager running.
     """
     try:
-        from PyQt4.QtGui import QX11Info
+        from PyQt5.QtGui import QX11Info
     except ImportError:
         return False
 

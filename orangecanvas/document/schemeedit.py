@@ -26,18 +26,23 @@ else:
 
 import six
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QInputDialog, QMenu, QAction, QActionGroup,
-    QKeySequence, QUndoStack, QUndoCommand, QGraphicsItem, QGraphicsObject,
-    QGraphicsTextItem, QCursor, QFont, QPainter, QPixmap, QColor,
+    QUndoStack, QUndoCommand, QGraphicsItem, QGraphicsObject,
+    QGraphicsTextItem
+)
+
+
+from PyQt5.QtGui import (
+    QKeySequence, QCursor, QFont, QPainter, QPixmap, QColor,
     QIcon, QWhatsThisClickedEvent, QBrush
 )
 
-from PyQt4.QtCore import (
+from PyQt5.QtCore import (
     Qt, QObject, QEvent, QSignalMapper, QRectF, QCoreApplication
 )
 
-from PyQt4.QtCore import pyqtProperty as Property, pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal
 
 from ..registry.qt import whats_this_helper
 from ..gui.quickhelp import QuickHelpTipEvent

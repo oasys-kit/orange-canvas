@@ -2,11 +2,12 @@
 A dialog widget for selecting an item.
 """
 
-from PyQt4.QtGui import QDialog, QWidget, QVBoxLayout, QDialogButtonBox, \
-                        QStringListModel, QLabel, QSizePolicy
+from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QDialogButtonBox, \
+                        QLabel, QSizePolicy
 
-from PyQt4.QtCore import Qt
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSignal as Signal
 
 from . import previewbrowser
 

@@ -5,12 +5,12 @@ Scheme Info editor widget.
 
 import six
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QWidget, QDialog, QLabel, QTextEdit, QCheckBox, QFormLayout,
     QVBoxLayout, QHBoxLayout, QDialogButtonBox, QSizePolicy
 )
 
-from PyQt4.QtCore import Qt
+from PyQt5.QtCore import Qt
 
 from ..gui.lineedit import LineEdit
 from ..gui.utils import StyledWidget_paintEvent, StyledWidget

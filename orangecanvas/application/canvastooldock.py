@@ -4,17 +4,20 @@ Orange Canvas Tool Dock widget
 """
 import sys
 
-from PyQt4.QtGui import (
-    QWidget, QSplitter, QVBoxLayout, QTextEdit, QAction, QPalette, QBrush,
-    QSizePolicy, QApplication, QDrag
+from PyQt5.QtWidgets import (
+    QWidget, QSplitter, QVBoxLayout, QTextEdit, QAction,
+    QSizePolicy, QApplication
 )
 
-from PyQt4.QtCore import (
+from PyQt5.QtGui import (
+    QPalette, QBrush, QDrag
+)
+from PyQt5.QtCore import (
     Qt, QSize, QObject, QPropertyAnimation, QEvent, QRect, QPoint,
     QModelIndex, QPersistentModelIndex, QEventLoop, QMimeData
 )
 
-from PyQt4.QtCore import pyqtProperty as Property, pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal
 
 from ..gui.toolgrid import ToolGrid
 from ..gui.toolbar import DynamicResizeToolBar
@@ -41,7 +44,7 @@ class SplitterResizer(QObject):
         self.__animationEnabled = True
         self.__size = -1
         self.__expanded = False
-        self.__animation = QPropertyAnimation(self, "size_", self)
+        self.__animation = QPropertyAnimation(self, b"size_", self)
 
         self.__action = QAction("toogle-expanded", self, checkable=True)
         self.__action.triggered[bool].connect(self.setExpanded)
@@ -303,7 +306,9 @@ class QuickCategoryToolbar(ToolGrid):
         button = ToolGrid.createButtonForAction(self, action)
 
         item = qunwrap(action.data())  # QPersistentModelIndex
-        assert isinstance(item, QPersistentModelIndex)
+
+        print(item.__class__)
+        #assert isinstance(item, QPersistentModelIndex)
 
         brush = qunwrap(item.data(Qt.BackgroundRole))
         if not isinstance(brush, QBrush):

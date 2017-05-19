@@ -3,10 +3,10 @@ Tests for the DockWidget.
 
 """
 
-from PyQt4.QtGui import QWidget, QMainWindow, QListView, QTextEdit, \
+from PyQt5.QtGui import QWidget, QMainWindow, QListView, QTextEdit, \
                         QToolButton, QStringListModel, QHBoxLayout, QLabel
 
-from PyQt4.QtCore import Qt
+from PyQt5.QtCore import Qt
 
 from .. import test
 from ..dock import CollapsibleDockWidget

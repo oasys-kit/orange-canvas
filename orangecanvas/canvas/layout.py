@@ -8,8 +8,8 @@ import numpy
 
 import sip
 
-from PyQt4.QtGui import QGraphicsObject, QApplication
-from PyQt4.QtCore import QRectF, QLineF, QEvent
+from PyQt5.QtWidgets import QGraphicsObject, QApplication
+from PyQt5.QtCore import QRectF, QLineF, QEvent
 
 from .items import NodeItem, LinkItem, SourceAnchorItem, SinkAnchorItem
 from .items.utils import typed_signal_mapper, invert_permutation_indices, \

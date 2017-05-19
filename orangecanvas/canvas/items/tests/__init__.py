@@ -10,10 +10,10 @@ class TestItems(unittest.TestCase):
     def setUp(self):
         import logging
 
-        from PyQt4.QtGui import QApplication, QGraphicsScene, QGraphicsView, \
+        from PyQt5.QtGui import QApplication, QGraphicsScene, QGraphicsView, \
                                 QPainter
 
-        from PyQt4.QtCore import QTimer
+        from PyQt5.QtCore import QTimer
 
         logging.basicConfig()
 

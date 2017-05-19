@@ -6,9 +6,9 @@ from __future__ import division
 
 import logging
 
-from PyQt4.QtGui import QToolBar
+from PyQt5.QtWidgets import QToolBar
 
-from PyQt4.QtCore import Qt, QSize, QEvent
+from PyQt5.QtCore import Qt, QSize, QEvent
 
 log = logging.getLogger(__name__)
 

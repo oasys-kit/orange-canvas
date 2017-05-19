@@ -7,9 +7,9 @@ Scheme Link
 
 import six
 
-from PyQt4.QtCore import QObject
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import pyqtProperty as Property
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property
 
 from ..utils import name_lookup
 from .errors import IncompatibleChannelTypeError

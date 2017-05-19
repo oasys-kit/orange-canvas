@@ -21,8 +21,8 @@ else:
 
 import pkg_resources
 
-from PyQt4.QtGui import QFont, QColor
-from PyQt4.QtCore import Qt, QDir, QSysInfo, QT_VERSION
+from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtCore import Qt, QDir, QSysInfo, QT_VERSION
 
 from .application.application import CanvasApplication
 from .application.canvasmain import CanvasMainWindow
@@ -31,7 +31,7 @@ from .application.outputview import TextStream, ExceptHook
 from . import utils, config
 from .gui.splashscreen import SplashScreen
 from .utils.redirect import redirect_stdout, redirect_stderr
-from .utils.qtcompat import QSettings
+from PyQt5.QtCore import QSettings
 
 from .registry import qt
 from .registry import WidgetRegistry, set_global_registry

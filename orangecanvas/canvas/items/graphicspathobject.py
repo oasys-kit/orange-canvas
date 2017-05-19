@@ -1,7 +1,8 @@
-from PyQt4.QtGui import QGraphicsObject, QPainterPath, QPainterPathStroker, \
-                        QBrush, QPen
+from PyQt5.QtWidgets import QGraphicsObject
 
-from PyQt4.QtCore import Qt, QPointF, pyqtSignal as Signal
+from PyQt5.QtGui import QPainterPath, QPainterPathStroker, QBrush, QPen
+
+from PyQt5.QtCore import Qt, QPointF, pyqtSignal as Signal
 
 from ...utils.qtcompat import qunwrap
 

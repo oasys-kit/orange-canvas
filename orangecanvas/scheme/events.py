@@ -7,7 +7,7 @@ instance.
 
 """
 
-from PyQt4.QtCore import QEvent
+from PyQt5.QtCore import QEvent
 
 __all__ = ["WorkflowEvent", "NodeEvent", "LinkEvent", "AnnotationEvent"]
 

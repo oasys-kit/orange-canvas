@@ -1,5 +1,5 @@
-from PyQt4.QtGui import QPainterPath, QBrush, QPen, QColor
-from PyQt4.QtCore import QPointF
+from PyQt5.QtGui import QPainterPath, QBrush, QPen, QColor
+from PyQt5.QtCore import QPointF
 
 from . import TestItems
 

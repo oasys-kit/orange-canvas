@@ -11,20 +11,25 @@ from collections import namedtuple
 
 from xml.sax.saxutils import escape
 
-from PyQt4.QtGui import (
+
+from PyQt5.QtWidgets import (
     QApplication, QDialog, QVBoxLayout, QDialogButtonBox, QGraphicsScene,
     QGraphicsView, QGraphicsWidget, QGraphicsRectItem,
     QGraphicsLineItem, QGraphicsTextItem, QGraphicsLayoutItem,
     QGraphicsLinearLayout, QGraphicsGridLayout, QGraphicsPixmapItem,
-    QGraphicsDropShadowEffect, QSizePolicy, QPalette, QPen,
+    QGraphicsDropShadowEffect, QSizePolicy
+)
+
+from PyQt5.QtGui import (
+    QPalette, QPen,
     QPainter, QIcon
 )
 
-from PyQt4.QtCore import (
+from PyQt5.QtCore import (
     Qt, QObject, QSize, QSizeF, QPointF, QRectF, qVersion
 )
 
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtSignal as Signal
 
 from ..scheme import SchemeNode, SchemeLink, compatible_channels
 from ..registry import InputSignal, OutputSignal
@@ -32,7 +37,7 @@ from ..registry import InputSignal, OutputSignal
 from ..resources import icon_loader
 
 # This is a special value defined in Qt4 but does not seem to be exported
-# by PyQt4
+# by PyQt5
 QWIDGETSIZE_MAX = ((1 << 24) - 1)
 
 

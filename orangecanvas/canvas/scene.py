@@ -14,13 +14,14 @@ from xml.sax.saxutils import escape
 
 import six
 
-from PyQt4.QtGui import QGraphicsScene, QPainter, QBrush, QColor, QFont, \
-                        QGraphicsItem
+from PyQt5.QtWidgets import QGraphicsScene, QGraphicsItem
 
-from PyQt4.QtCore import Qt, QPointF, QRectF, QSizeF, QLineF, QBuffer, QEvent
+from PyQt5.QtGui import QPainter, QBrush, QColor, QFont
 
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import PYQT_VERSION
+from PyQt5.QtCore import Qt, QPointF, QRectF, QSizeF, QLineF, QBuffer, QEvent
+
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import PYQT_VERSION
 
 
 from .. import scheme
@@ -885,7 +886,7 @@ def grab_svg(scene):
     scene : :class:`CanvasScene`
 
     """
-    from PyQt4.QtSvg import QSvgGenerator
+    from PyQt5.QtSvg import QSvgGenerator
     svg_buffer = QBuffer()
     gen = QSvgGenerator()
     gen.setOutputDevice(svg_buffer)

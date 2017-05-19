@@ -1,5 +1,5 @@
-from PyQt4.QtGui import QGraphicsRectItem, QGraphicsLineItem
-from PyQt4.QtCore import QRectF, QMargins, QLineF
+from PyQt5.QtGui import QGraphicsRectItem, QGraphicsLineItem
+from PyQt5.QtCore import QRectF, QMargins, QLineF
 
 from . import TestItems
 

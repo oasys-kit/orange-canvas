@@ -7,15 +7,18 @@ from functools import wraps
 
 import six
 
-from PyQt4.QtGui import (
-    QWidget, QPlainTextEdit, QVBoxLayout, QTextCursor, QTextCharFormat,
-    QFont, QSizePolicy
+from PyQt5.QtWidgets import (
+    QWidget, QPlainTextEdit, QVBoxLayout,
+    QSizePolicy
 )
-
-from PyQt4.QtCore import (
+from PyQt5.QtGui import (
+    QTextCursor, QTextCharFormat,
+    QFont
+)
+from PyQt5.QtCore import (
     Qt, QObject, QEvent, QCoreApplication, QThread, QSemaphore, QSize
 )
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtSignal as Signal
 
 
 class TerminalView(QPlainTextEdit):

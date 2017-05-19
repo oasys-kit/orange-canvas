@@ -18,7 +18,7 @@ import six
 
 from .provider import IntersphinxHelpProvider
 
-from PyQt4.QtCore import QObject, QUrl
+from PyQt5.QtCore import QObject, QUrl
 
 log = logging.getLogger(__name__)
 

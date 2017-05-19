@@ -6,13 +6,18 @@ from collections import namedtuple, deque
 
 import six
 
-from PyQt4.QtGui import (
-    QFrame, QAction, QToolButton, QGridLayout, QFontMetrics,
+from PyQt5.QtWidgets import (
+    QFrame, QAction, QToolButton, QGridLayout,
     QSizePolicy, QStyleOptionToolButton, QStylePainter, QStyle
 )
 
-from PyQt4.QtCore import Qt, QObject, QSize, QEvent, QSignalMapper
-from PyQt4.QtCore import pyqtSignal as Signal
+
+from PyQt5.QtGui import (
+    QFontMetrics
+)
+
+from PyQt5.QtCore import Qt, QObject, QSize, QEvent, QSignalMapper
+from PyQt5.QtCore import pyqtSignal as Signal
 
 from . import utils
 from ..utils import qtcompat

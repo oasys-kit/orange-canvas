@@ -3,18 +3,22 @@ import logging
 
 import six
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QGraphicsItem, QGraphicsPathItem, QGraphicsWidget, QGraphicsTextItem,
-    QGraphicsDropShadowEffect, QPainterPath, QPainterPathStroker,
+    QGraphicsDropShadowEffect
+)
+
+from PyQt5.QtGui import (
+    QPainterPath, QPainterPathStroker,
     QPolygonF, QColor, QPen
 )
 
-from PyQt4.QtCore import (
+from PyQt5.QtCore import (
     Qt, QPointF, QSizeF, QRectF, QLineF, QEvent, qVersion
 )
 
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import pyqtProperty as Property
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property
 
 log = logging.getLogger(__name__)
 

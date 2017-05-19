@@ -11,9 +11,9 @@ import ast
 from collections import defaultdict
 from operator import add
 
-from PyQt4.QtCore import QObject, QEvent
+from PyQt5.QtCore import QObject, QEvent
 
-from PyQt4.QtCore import pyqtSignal as Signal, pyqtSlot as Slot
+from PyQt5.QtCore import pyqtSignal as Signal, pyqtSlot as Slot
 
 from .qtcompat import qunwrap
 

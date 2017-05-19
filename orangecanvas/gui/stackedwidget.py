@@ -10,13 +10,14 @@ transitions between widgets.
 
 import logging
 
-from PyQt4.QtGui import QWidget, QFrame, QStackedLayout, QPixmap, \
-                        QPainter, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QFrame, QStackedLayout, QSizePolicy
 
-from PyQt4.QtCore import Qt, QPoint, QRect, QSize, QPropertyAnimation
+from PyQt5.QtGui import QPixmap, QPainter
 
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import pyqtProperty as Property
+from PyQt5.QtCore import Qt, QPoint, QRect, QSize, QPropertyAnimation
+
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property
 
 from .utils import updates_disabled
 
@@ -140,7 +141,7 @@ class AnimatedStackedWidget(QFrame):
         self.__fadeWidget = CrossFadePixmapWidget(self)
 
         self.transitionAnimation = \
-            QPropertyAnimation(self.__fadeWidget, "blendingFactor_", self)
+            QPropertyAnimation(self.__fadeWidget, b"blendingFactor_", self)
         self.transitionAnimation.setStartValue(0.0)
         self.transitionAnimation.setEndValue(1.0)
         self.transitionAnimation.setDuration(100 if animationEnabled else 0)
@@ -235,17 +236,17 @@ class AnimatedStackedWidget(QFrame):
             self.__currentIndex = index
             return
 
-#        if not self.animationEnabled():
-#            self.layout().setCurrentIndex(index)
-#            self.__currentIndex = index
-#            return
-
-        # else start the animation
         current = self.__widgets[self.__currentIndex]
         next_widget = self.__widgets[index]
 
-        current_pix = QPixmap.grabWidget(current)
-        next_pix = QPixmap.grabWidget(next_widget)
+        def has_pending_resize(widget):
+            return widget.testAttribute(Qt.WA_PendingResizeEvent) or \
+                   not widget.testAttribute(Qt.WA_WState_Created)
+        current_pix = next_pix = None
+        if not has_pending_resize(current):
+            current_pix = current.grab()
+        if not has_pending_resize(next_widget):
+            next_pix = next_widget.grab()
 
         with updates_disabled(self):
             self.__fadeWidget.setPixmap(current_pix)

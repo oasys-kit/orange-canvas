@@ -14,21 +14,27 @@ import pkg_resources
 
 import six
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QAction, QActionGroup, QMenu, QMenuBar, QDialog,
-    QFileDialog, QMessageBox, QVBoxLayout, QSizePolicy, QColor, QKeySequence,
-    QIcon, QToolBar, QToolButton, QDockWidget, QDesktopServices, QApplication,
+    QFileDialog, QMessageBox, QVBoxLayout, QSizePolicy,
+     QToolBar, QToolButton, QDockWidget, QApplication,
 )
 
-from PyQt4.QtCore import (
-    Qt, QObject, QEvent, QSize, QUrl, QTimer, QFile, QByteArray
+from PyQt5.Qt import QDesktopServices
+
+from PyQt5.QtGui import (
+    QColor, QIcon, QKeySequence
 )
 
-from PyQt4.QtNetwork import QNetworkDiskCache
+from PyQt5.QtCore import (
+    Qt, QObject, QEvent, QSize, QUrl, QTimer, QFile, QByteArray, QStandardPaths
+)
 
-from PyQt4.QtWebKit import QWebView
+from PyQt5.QtNetwork import QNetworkDiskCache
 
-from PyQt4.QtCore import pyqtProperty as Property, pyqtSignal as Signal, \
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+
+from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal, \
                          pyqtSlot as Slot
 
 # Compatibility with PyQt < v4.8.3
@@ -190,9 +196,9 @@ class CanvasMainWindow(QMainWindow):
         # Proxy widget registry model
         self.__proxy_model = None
 
-        self.last_scheme_dir = QDesktopServices.StandardLocation(
-            QDesktopServices.DocumentsLocation
-        )
+        self.last_scheme_dir = QStandardPaths.standardLocations(
+            QStandardPaths.DocumentsLocation
+        )[0]
         try:
             self.recent_schemes = config.recent_schemes()
         except Exception:
@@ -374,13 +380,9 @@ class CanvasMainWindow(QMainWindow):
         self.help_dock = DockableWindow(self.tr("Help"), self,
                                         objectName="help-dock")
         self.help_dock.setAllowedAreas(Qt.NoDockWidgetArea)
-        self.help_view = QWebView()
-        manager = self.help_view.page().networkAccessManager()
-        cache = QNetworkDiskCache()
-        cache.setCacheDirectory(
-            os.path.join(config.cache_dir(), "help", "help-view-cache")
-        )
-        manager.setCache(cache)
+
+        self.help_view = QWebEngineView()
+
         self.help_dock.setWidget(self.help_view)
         self.help_dock.hide()
 
@@ -707,9 +709,9 @@ class CanvasMainWindow(QMainWindow):
             settings.value("scheme-margins-enabled", False, type=bool)
         )
 
-        default_dir = QDesktopServices.storageLocation(
-            QDesktopServices.DocumentsLocation
-        )
+        default_dir = QStandardPaths.standardLocations(
+            QStandardPaths.DocumentsLocation
+        )[0]
 
         self.last_scheme_dir = settings.value("last-scheme-dir", default_dir,
                                               type=six.text_type)

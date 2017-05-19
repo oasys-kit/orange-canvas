@@ -5,11 +5,14 @@ Preview item model.
 import logging
 import six
 
-from PyQt4.QtGui import (
-    QStandardItemModel, QStandardItem, QStyledItemDelegate, QIcon
+from PyQt5.QtWidgets import (
+    QStyledItemDelegate
+)
+from PyQt5.QtGui import (
+    QStandardItemModel, QStandardItem, QIcon
 )
 
-from PyQt4.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer
 
 from . import scanner
 from ..utils.qtcompat import qunwrap

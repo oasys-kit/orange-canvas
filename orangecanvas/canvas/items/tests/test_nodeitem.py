@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QPainterPath, QGraphicsEllipseItem
+from PyQt5.QtGui import QPainterPath, QGraphicsEllipseItem
 
 from .. import NodeItem, AnchorPoint, NodeAnchorItem
 

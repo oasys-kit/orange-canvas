@@ -1,6 +1,6 @@
 import time
 
-from PyQt4.QtGui import QGraphicsView, QPainter, QPainterPath
+from PyQt5.QtGui import QGraphicsView, QPainter, QPainterPath
 
 from ...gui.test import QAppTestCase
 

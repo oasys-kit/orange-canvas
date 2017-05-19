@@ -12,16 +12,16 @@ import itertools
 import pkg_resources
 import six
 
-from PyQt4.QtGui import (
-    QDesktopServices, QPainter, QFont, QFontMetrics, QColor, QPixmap, QIcon
+from PyQt5.QtGui import (
+    QPainter, QFont, QFontMetrics, QColor, QPixmap, QIcon
 )
 
-from PyQt4.QtCore import Qt, QCoreApplication, QPoint, QRect
+from PyQt5.QtCore import Qt, QCoreApplication, QPoint, QRect, QStandardPaths
 
 from .utils.settings import Settings, config_slot
 
 # Import QSettings from qtcompat module (compatibility with PyQt < 4.8.3
-from .utils.qtcompat import QSettings
+from PyQt5.QtCore import QSettings
 
 log = logging.getLogger(__name__)
 
@@ -236,7 +236,7 @@ def data_dir():
     init()
 #     return default.data_dir()
 
-    datadir = QDesktopServices.storageLocation(QDesktopServices.DataLocation)
+    datadir = QStandardPaths.standardLocations(QStandardPaths.DataLocation)[0]
     datadir = six.text_type(datadir)
     version = six.text_type(QCoreApplication.applicationVersion())
     datadir = os.path.join(datadir, version)
@@ -252,7 +252,7 @@ def cache_dir():
     """
     init()
 
-    cachedir = QDesktopServices.storageLocation(QDesktopServices.CacheLocation)
+    cachedir = QStandardPaths.standardLocations(QStandardPaths.CacheLocation)[0]
     cachedir = six.text_type(cachedir)
     version = six.text_type(QCoreApplication.applicationVersion())
     cachedir = os.path.join(cachedir, version)

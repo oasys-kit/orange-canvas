@@ -1,5 +1,5 @@
 """
-PyQt4 compatibility utility functions.
+PyQt5 compatibility utility functions.
 
 .. warning:: It is important that any `sip.setapi` (at least for QVariant
              and QString) calls are already made before importing this
@@ -9,7 +9,7 @@ PyQt4 compatibility utility functions.
 import six
 
 import sip
-import PyQt4.QtCore
+import PyQt5.QtCore
 
 # All known api names for compatibility with version of sip where
 # `getapi` is not available ( < v4.9)
@@ -22,7 +22,10 @@ def sip_getapi(name):
     Get the api version for a name.
     """
     if sip.SIP_VERSION > 0x40900:
-        return sip.getapi(name)
+        try:
+            return sip.getapi(name)
+        except:
+            return 1
     elif name in _API_NAMES:
         return 1
     else:
@@ -33,10 +36,10 @@ HAS_QVARIANT = sip_getapi("QVariant") == 1
 HAS_QSTRING = sip_getapi("QString") == 1
 
 if HAS_QVARIANT:
-    from PyQt4.QtCore import QVariant
+    from PyQt5.QtCore import QVariant
 
-from PyQt4.QtCore import QSettings, QByteArray
-from PyQt4.QtCore import PYQT_VERSION
+from PyQt5.QtCore import QSettings, QByteArray
+from PyQt5.QtCore import PYQT_VERSION
 
 #: QSettings.value has a `type` parameter
 QSETTINGS_HAS_TYPE = PYQT_VERSION >= 0x40803
@@ -49,26 +52,35 @@ def toPyObject(variant):
     for QVariant does not export it just return the object unchanged.
 
     """
+
     if not HAS_QVARIANT:
         return variant
     elif isinstance(variant, QVariant):
         return variant.toPyObject()
     else:
-        raise TypeError("Expected a 'QVariant' got '{}'."
-                        .format(type(variant).__name__))
+        return variant
+        #raise TypeError("Expected a 'QVariant' got '{}'."
+        #                .format(type(variant).__name__))
 
 
 def qunwrap(variant):
     """Unwrap a `variant` and return it's contents.
     """
+
+    return variant
+
     value = toPyObject(variant)
-    if HAS_QSTRING and isinstance(value, PyQt4.QtCore.QString):
+    if HAS_QSTRING: #and isinstance(value, PyQt5.QtCore.QString):
         return six.text_type(value)
     else:
         return value
 
 
+
 def qwrap(obj):
+
+    return obj
+
     if HAS_QVARIANT and not isinstance(obj, QVariant):
         return QVariant(obj)
     else:
@@ -111,7 +123,7 @@ if not QSETTINGS_HAS_TYPE:
         value method.
 
         """
-        # QSettings.value does not have `type` type before PyQt4 4.8.3
+        # QSettings.value does not have `type` type before PyQt5 4.8.3
         # We dont't check if QVariant is exported, it is assumed on such old
         # installations the new api is not used.
         def value(self, key, defaultValue=QVariant(), type=None):

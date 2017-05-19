@@ -18,16 +18,19 @@ from functools import reduce
 
 import six
 
-from PyQt4.QtGui import (
-    QApplication, QGraphicsRectItem, QPen, QBrush, QColor, QFontMetrics,
+from PyQt5.QtWidgets import (
+    QApplication, QGraphicsRectItem,
     QUndoCommand
 )
+from PyQt5.QtGui import (
+    QPen, QBrush, QColor, QFontMetrics
+)
 
-from PyQt4.QtCore import (
+from PyQt5.QtCore import (
     Qt, QObject, QCoreApplication, QSizeF, QPointF, QRect, QRectF, QLineF
 )
 
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtSignal as Signal
 
 from ..registry.description import WidgetDescription
 from ..registry.qt import QtWidgetRegistry

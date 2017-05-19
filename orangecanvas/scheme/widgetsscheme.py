@@ -25,12 +25,12 @@ from collections import namedtuple
 
 import sip
 
-from PyQt4.QtGui import (
+from PyQt5.QtGui import (
     QShortcut, QKeySequence, QWhatsThisClickedEvent, QWidget
 )
 
-from PyQt4.QtCore import Qt, QObject, QCoreApplication, QTimer, QEvent, SIGNAL
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import Qt, QObject, QCoreApplication, QTimer, QEvent, SIGNAL
+from PyQt5.QtCore import pyqtSignal as Signal
 
 from .signalmanager import SignalManager, compress_signals, can_enable_dynamic
 from .scheme import Scheme, SchemeNode

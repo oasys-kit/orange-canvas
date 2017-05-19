@@ -2,8 +2,8 @@
 Tests for WidgetsToolBox.
 
 """
-from PyQt4.QtGui import QWidget, QHBoxLayout
-from PyQt4.QtCore import QSize
+from PyQt5.QtGui import QWidget, QHBoxLayout
+from PyQt5.QtCore import QSize
 
 from ...registry import tests as registry_tests
 from ...registry.qt import QtWidgetRegistry

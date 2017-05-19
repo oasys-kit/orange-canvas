@@ -1,11 +1,11 @@
 """Tests for `propertybindings`
 
 """
-from PyQt4.QtGui import (
+from PyQt5.QtGui import (
     QWidget, QVBoxLayout, QCheckBox, QSpinBox, QLineEdit, QTextEdit
 )
 
-from PyQt4.QtCore import QObject
+from PyQt5.QtCore import QObject
 
 from ...gui import test
 from ..qtcompat import toPyObject

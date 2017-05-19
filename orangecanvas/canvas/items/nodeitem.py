@@ -10,16 +10,19 @@ from xml.sax.saxutils import escape
 
 import six
 
-from PyQt4.QtGui import (
-    QGraphicsItem, QGraphicsObject, QGraphicsTextItem,
+from PyQt5.QtWidgets import (
+    QStyle, QGraphicsItem, QGraphicsObject, QGraphicsTextItem,
     QGraphicsDropShadowEffect, QGraphicsView,
-    QPen, QBrush, QColor, QPalette, QIcon, QStyle, QPainter,
-    QPainterPath, QPainterPathStroker, QGraphicsPathItem, QApplication
+    QStyle, QGraphicsPathItem, QApplication
+)
+from PyQt5.QtGui import (
+    QPen, QBrush, QColor, QPalette, QIcon, QPainter,
+    QPainterPath, QPainterPathStroker
 )
 
-from PyQt4.QtCore import Qt, QPointF, QRectF, QSize, QTimer, QPropertyAnimation
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import pyqtProperty as Property
+from PyQt5.QtCore import Qt, QPointF, QRectF, QSize, QTimer, QPropertyAnimation
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property
 
 from .graphicspathobject import GraphicsPathObject
 from .utils import saturated, radial_gradient
@@ -106,12 +109,12 @@ class NodeBodyItem(GraphicsPathObject):
         self.setGraphicsEffect(self.shadow)
         self.shadow.setEnabled(True)
 
-        self.__blurAnimation = QPropertyAnimation(self.shadow, "blurRadius",
+        self.__blurAnimation = QPropertyAnimation(self.shadow, b"blurRadius",
                                                   self)
         self.__blurAnimation.setDuration(100)
         self.__blurAnimation.finished.connect(self.__on_finished)
 
-        self.__pingAnimation = QPropertyAnimation(self, "scale", self)
+        self.__pingAnimation = QPropertyAnimation(self, b"scale", self)
         self.__pingAnimation.setDuration(250)
         self.__pingAnimation.setKeyValues([(0.0, 1.0), (0.5, 1.1), (1.0, 1.0)])
 

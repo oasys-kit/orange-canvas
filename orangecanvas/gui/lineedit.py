@@ -3,13 +3,17 @@ A LineEdit class with a button on left/right side.
 """
 from collections import namedtuple
 
-from PyQt4.QtGui import (
+from PyQt5.QtWidgets import (
     QLineEdit, QToolButton, QStyleOptionToolButton, QStylePainter,
-    QStyle, QPalette, QFontMetrics, QAction
+    QStyle, QAction
 )
 
-from PyQt4.QtCore import Qt, QSize, QRect, qVersion
-from PyQt4.QtCore import pyqtSignal as Signal, pyqtProperty as Property
+from PyQt5.QtGui import (
+    QPalette, QFontMetrics
+)
+
+from PyQt5.QtCore import Qt, QSize, QRect, qVersion
+from PyQt5.QtCore import pyqtSignal as Signal, pyqtProperty as Property
 
 
 _ActionSlot = \

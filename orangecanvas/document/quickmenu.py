@@ -17,21 +17,25 @@ import six
 
 import numpy
 
-from PyQt4.QtGui import (
-    QWidget, QFrame, QToolButton, QAbstractButton, QAction, QIcon, QTreeView,
+from PyQt5.QtWidgets import (
+    QWidget, QFrame, QToolButton, QAbstractButton, QAction, QTreeView,
     QButtonGroup, QStackedWidget, QHBoxLayout, QVBoxLayout, QSizePolicy,
-    QStandardItemModel, QSortFilterProxyModel, QStyleOptionToolButton,
+    QStyleOptionToolButton,
     QStylePainter, QStyle, QApplication, QStyledItemDelegate,
-    QStyleOptionViewItemV4, QSizeGrip, QPolygon, QRegion, QItemSelectionModel,
-    QBrush
+    QStyleOptionViewItem, QSizeGrip
 )
 
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtCore import pyqtProperty as Property
+from PyQt5.QtGui import (
+    QIcon, QPolygon, QRegion,
+    QBrush, QStandardItemModel
+)
 
-from PyQt4.QtCore import (
+from PyQt5.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import pyqtProperty as Property
+
+from PyQt5.QtCore import (
     Qt, QObject, QPoint, QSize, QRect, QEventLoop, QEvent, QModelIndex,
-    QTimer
+    QTimer, QSortFilterProxyModel, QItemSelectionModel
 )
 
 
@@ -52,7 +56,7 @@ class _MenuItemDelegate(QStyledItemDelegate):
         QStyledItemDelegate.__init__(self, parent)
 
     def sizeHint(self, option, index):
-        option = QStyleOptionViewItemV4(option)
+        option = QStyleOptionViewItem(option)
         self.initStyleOption(option, index)
         size = QStyledItemDelegate.sizeHint(self, option, index)
 

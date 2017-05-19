@@ -13,8 +13,8 @@ from collections import namedtuple, MutableMapping
 
 import six
 
-from PyQt4.QtCore import QObject, QEvent, QCoreApplication
-from PyQt4.QtCore import pyqtSignal as Signal
+from PyQt5.QtCore import QObject, QEvent, QCoreApplication
+from PyQt5.QtCore import pyqtSignal as Signal
 
 pyqtWrapperType = type(QObject)
 

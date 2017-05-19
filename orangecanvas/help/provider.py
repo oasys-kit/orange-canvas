@@ -13,9 +13,9 @@ else:
 
 import six
 
-from PyQt4.QtCore import QObject, QUrl
+from PyQt5.QtCore import QObject, QUrl
 
-from PyQt4.QtNetwork import (
+from PyQt5.QtNetwork import (
     QNetworkAccessManager, QNetworkDiskCache, QNetworkRequest, QNetworkReply
 )
 

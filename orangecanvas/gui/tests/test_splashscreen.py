@@ -6,8 +6,8 @@ from datetime import datetime
 
 import pkg_resources
 
-from PyQt4.QtGui import QPixmap
-from PyQt4.QtCore import Qt, QRect
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt, QRect
 
 from ..splashscreen import SplashScreen
 
