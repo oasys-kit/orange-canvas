@@ -54,7 +54,7 @@ class FramelessWindow(QWidget):
 
     def __updateMask(self):
         opt = QStyleOption()
-        opt.init(self)
+        opt.initFrom(self)
         rect = opt.rect
 
         size = rect.size()
@@ -72,7 +72,7 @@ class FramelessWindow(QWidget):
     def paintEvent(self, event):
         if self.__isTransparencySupported:
             opt = QStyleOption()
-            opt.init(self)
+            opt.initFrom(self)
             rect = opt.rect
 
             p = QPainter(self)

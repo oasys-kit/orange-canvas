@@ -959,7 +959,10 @@ def loads(string, format):
     elif format == "json":
         return json.loads(string)
     elif format == "pickle":
-        return pickle.loads(_decodebytes(string.encode('ascii')))
+        original_value = _decodebytes(string.encode('ascii'))
+        fixed_value = original_value.replace("PyQt4".encode("ascii"), "PyQt5".encode("ascii"))
+
+        return pickle.loads(fixed_value)
     else:
         raise ValueError("Unknown format")
 
