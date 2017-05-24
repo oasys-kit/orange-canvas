@@ -19,20 +19,20 @@ from PyQt5.QtWidgets import (
     QFileDialog, QMessageBox, QVBoxLayout, QSizePolicy,
      QToolBar, QToolButton, QDockWidget, QApplication,
 )
-
 from PyQt5.Qt import QDesktopServices
-
 from PyQt5.QtGui import (
     QColor, QIcon, QKeySequence
 )
-
 from PyQt5.QtCore import (
     Qt, QObject, QEvent, QSize, QUrl, QTimer, QFile, QByteArray, QStandardPaths
 )
 
-from PyQt5.QtNetwork import QNetworkDiskCache
+import platform
 
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+if platform.system() == 'Darwin':
+    from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
+elif platform.system() == 'Linux':
+    from PyQt5.QtWebKit import QWebView
 
 from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal, \
                          pyqtSlot as Slot
@@ -381,7 +381,7 @@ class CanvasMainWindow(QMainWindow):
                                         objectName="help-dock")
         self.help_dock.setAllowedAreas(Qt.NoDockWidgetArea)
 
-        self.help_view = QWebEngineView()
+        self.help_view = QWebView()
 
         self.help_dock.setWidget(self.help_view)
         self.help_dock.hide()

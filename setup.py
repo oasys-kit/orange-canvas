@@ -10,17 +10,17 @@ except ImportError:
 
 from setuptools import setup, find_packages
 
-NAME = "Orange-Canvas-Core"
-VERSION = "0.0.7"
-DESCRIPTION = "Core component of Orange Canvas"
+NAME = "Oasys-Canvas-Core"
+VERSION = "0.0.1"
+DESCRIPTION = "Core component of Oasys Canvas"
 LONG_DESCRIPTION = open("README.txt", "rt").read()
 
 URL = "http://orange.biolab.si/"
 AUTHOR = "Bioinformatics Laboratory, FRI UL"
-AUTHOR_EMAIL = 'contact@orange.biolab.si'
+AUTHOR_EMAIL = 'lucarebuffi@elettra.eu'
 
 LICENSE = "GPLv3"
-DOWNLOAD_URL = 'https://github.org/ales-erjavec/orange-canvas'
+DOWNLOAD_URL = 'https://github.org/lucarebuffi/orange-canvas'
 PACKAGES = find_packages()
 
 PACKAGE_DATA = {
