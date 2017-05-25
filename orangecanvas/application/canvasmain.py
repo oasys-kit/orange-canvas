@@ -32,7 +32,7 @@ import platform
 if platform.system() == 'Darwin':
     from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 elif platform.system() == 'Linux':
-    from PyQt5.QtWebKit import QWebView
+    from PyQt5.QtWebKitWidgets import QWebView
 
 from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal, \
                          pyqtSlot as Slot
