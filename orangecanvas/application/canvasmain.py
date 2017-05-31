@@ -907,7 +907,7 @@ class CanvasMainWindow(QMainWindow):
         filename = QFileDialog.getOpenFileName(
             self, self.tr("Open Orange Workflow File"),
             start_dir, self.tr("Orange Workflow (*.ows)"),
-        )
+        )[0]
 
         if filename:
             return self.load_scheme(filename)
@@ -1147,7 +1147,7 @@ class CanvasMainWindow(QMainWindow):
         filename = QFileDialog.getSaveFileName(
             self, self.tr("Save Orange Workflow File"),
             start_dir, self.tr("Orange Workflow (*.ows)")
-        )
+        )[0]
 
         if filename:
             filename = six.text_type(filename)
