@@ -47,7 +47,10 @@ def find_notifier(obj, name):
                         name)
 
     notifier = prop_meta.notifySignal()
-    name = notifier.signature().split("(")[0]
+    name = str(notifier.methodSignature().split("(")[0])
+
+    if name.startswith("b'"): name = name[2:-1]
+
     return name
 
 
@@ -194,7 +197,7 @@ class PropertyBinding(AbstractBoundProperty):
             notifier = find_notifier(obj, propertyName)
 
         if notifier is not None:
-            signal = getattr(obj, notifier)
+            signal = getattr(obj, str(notifier))
             signal.connect(self.notifyChanged)
         else:
             signal = None
