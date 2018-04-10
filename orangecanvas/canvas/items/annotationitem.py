@@ -109,7 +109,12 @@ class TextAnnotation(Annotation):
         self.__textMargins = (2, 2, 2, 2)
 
         rect = self.geometry().translated(-self.pos())
-        self.__framePathItem = QGraphicsPathItem(self)
+
+        ################################
+        # PyQt 5.10 crashes because of this call (3)
+        #self.__framePathItem = QGraphicsPathItem(self)
+        self.__framePathItem = QGraphicsPathItem(None)
+
         self.__framePathItem.setPen(QPen(Qt.NoPen))
 
         self.__textItem = GraphicsTextEdit(self)
