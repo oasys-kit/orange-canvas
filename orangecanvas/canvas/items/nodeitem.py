@@ -33,7 +33,6 @@ from ...resources import icon_loader
 from .utils import uniform_linear_layout
 from ...utils import qtcompat
 
-
 def create_palette(light_color, color):
     """
     Return a new :class:`QPalette` from for the :class:`NodeBodyItem`.
@@ -596,15 +595,21 @@ def standard_icon(standard_pixmap):
 
     """
     style = QApplication.instance().style()
-    return style.standardIcon(standard_pixmap)
 
+    return style.standardIcon(standard_pixmap)
 
 class GraphicsIconItem(QGraphicsItem):
     """
     A graphics item displaying an :class:`QIcon`.
     """
     def __init__(self, parent=None, icon=None, iconSize=None, **kwargs):
-        QGraphicsItem.__init__(self, parent, **kwargs)
+        #####################################
+        # PyQt 5.10 crashes because of this call (1)
+        #QGraphicsItem.__init__(self, parent, **kwargs)
+        QGraphicsItem.__init__(self, None, **kwargs)
+        self.setParentItem(parent)
+        #####################################
+
         self.setFlag(QGraphicsItem.ItemUsesExtendedStyleOption, True)
 
         if icon is None:
@@ -803,7 +808,9 @@ class NodeItem(QGraphicsObject):
 
     def __init__(self, widget_description=None, parent=None, **kwargs):
         self.__boundingRect = None
+
         QGraphicsObject.__init__(self, parent, **kwargs)
+
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
         self.setFlag(QGraphicsItem.ItemHasNoContents, True)
         self.setFlag(QGraphicsItem.ItemIsSelectable, True)
@@ -842,7 +849,6 @@ class NodeItem(QGraphicsObject):
 
         self.setZValue(self.Z_VALUE)
         self.setupGraphics()
-
         self.setWidgetDescription(widget_description)
 
     @classmethod
@@ -901,17 +907,26 @@ class NodeItem(QGraphicsObject):
         self.captionTextItem.setPlainText("")
         self.captionTextItem.setPos(0, 33)
 
+
         def iconItem(standard_pixmap):
             item = GraphicsIconItem(self, icon=standard_icon(standard_pixmap),
                                     iconSize=QSize(16, 16))
             item.hide()
+
             return item
+
 
         self.errorItem = iconItem(QStyle.SP_MessageBoxCritical)
         self.warningItem = iconItem(QStyle.SP_MessageBoxWarning)
         self.infoItem = iconItem(QStyle.SP_MessageBoxInformation)
 
-        self.backgroundItem = QGraphicsPathItem(self)
+
+        ################################
+        # PyQt 5.10 crashes because of this call (2)
+        #self.backgroundItem = QGraphicsPathItem(self)
+        self.backgroundItem = QGraphicsPathItem(None)
+        ################################
+
         backgroundrect = QPainterPath()
         backgroundrect.addRoundedRect(anchor_rect.adjusted(-4, -2, 4, 2),
                                       5, 5, mode=Qt.AbsoluteSize)
@@ -924,6 +939,7 @@ class NodeItem(QGraphicsObject):
 
         self.prepareGeometryChange()
         self.__boundingRect = None
+
 
     # TODO: Remove the set[Widget|Category]Description. The user should
     # handle setting of icons, title, ...
