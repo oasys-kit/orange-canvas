@@ -117,12 +117,13 @@ def get_by_id(registry, descriptor_id):
 
     raise KeyError(descriptor_id)
 
+import urllib
 
 def qurl_query_items(url):
-    items = []
-    for key, value in url.queryItems():
-        items.append((six.text_type(key), six.text_type(value)))
-    return items
+    if not url.hasQuery():
+        return []
+    querystr = url.query()
+    return urllib.parse.parse_qsl(querystr)
 
 
 def get_help_provider_for_description(desc):

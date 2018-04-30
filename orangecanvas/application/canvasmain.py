@@ -28,11 +28,15 @@ from PyQt5.QtCore import (
 )
 
 import platform
-
-if platform.system() == 'Darwin':
-    from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
-elif platform.system() == 'Linux':
-    from PyQt5.QtWebKitWidgets import QWebView
+try:
+    if platform.system() == 'Darwin':
+        from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
+    elif platform.system() == 'Linux':
+        from PyQt5.QtWebKitWidgets import QWebView
+    USE_WEB_KIT = True
+except ImportError:
+    QWebView = None
+    USE_WEB_KIT = False
 
 from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal, \
                          pyqtSlot as Slot
@@ -381,10 +385,13 @@ class CanvasMainWindow(QMainWindow):
                                         objectName="help-dock")
         self.help_dock.setAllowedAreas(Qt.NoDockWidgetArea)
 
-        self.help_view = QWebView()
+        if USE_WEB_KIT:
+            self.help_view = QWebView()
 
-        self.help_dock.setWidget(self.help_view)
-        self.help_dock.hide()
+            self.help_dock.setWidget(self.help_view)
+            self.help_dock.hide()
+        else:
+            self.help_view = None
 
         self.setMinimumSize(600, 500)
 
@@ -1848,9 +1855,13 @@ class CanvasMainWindow(QMainWindow):
                 url = QUrl(url.toString())
                 QDesktopServices.openUrl(url)
         else:
-            self.help_view.load(QUrl(url))
-            self.help_dock.show()
-            self.help_dock.raise_()
+            if USE_WEB_KIT:
+                self.help_view.load(QUrl(url))
+
+                self.help_dock.show()
+                self.help_dock.raise_()
+            else:
+                pass
 
     # Mac OS X
     if sys.platform == "darwin":
