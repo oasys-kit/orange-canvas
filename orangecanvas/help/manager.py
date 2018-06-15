@@ -204,6 +204,8 @@ def parse_meta(contents):
         else:
             meta[key] = message.get(key)
 
+    if len(meta.keys()) == 0: return {}
+
     version = StrictVersion(meta["Metadata-Version"])
 
     if version >= StrictVersion("1.3") and "Description" not in meta:
