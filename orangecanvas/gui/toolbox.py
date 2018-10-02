@@ -80,6 +80,7 @@ class ToolBoxTabButton(QToolButton):
         else:
             self.__paintEventNoStyle()
 
+
     def __paintEventNoStyle(self):
         p = QPainter(self)
         opt = QStyleOptionToolButton()
@@ -91,33 +92,22 @@ class ToolBoxTabButton(QToolButton):
         # highlight brush is used as the background for the icon and background
         # when the tab is expanded and as mouse hover color (lighter).
         brush_highlight = palette.highlight()
+        foregroundrole = QPalette.ButtonText
         if opt.state & QStyle.State_Sunken:
             # State 'down' pressed during a mouse press (slightly darker).
             background_brush = brush_darker(brush_highlight, 110)
+            foregroundrole = QPalette.HighlightedText
         elif opt.state & QStyle.State_MouseOver:
             background_brush = brush_darker(brush_highlight, 95)
+            foregroundrole = QPalette.HighlightedText
         elif opt.state & QStyle.State_On:
             background_brush = brush_highlight
+            foregroundrole = QPalette.HighlightedText
         else:
             # The default button brush.
             background_brush = palette.button()
 
         rect = opt.rect
-        icon = opt.icon
-        icon_size = opt.iconSize
-
-        # TODO: add shift for pressed as set by the style (PM_ButtonShift...)
-
-        pm = None
-        if not icon.isNull():
-            if opt.state & QStyle.State_Enabled:
-                mode = QIcon.Normal
-            else:
-                mode = QIcon.Disabled
-
-            pm = opt.icon.pixmap(
-                    rect.size().boundedTo(icon_size), mode,
-                    QIcon.On if opt.state & QStyle.State_On else QIcon.Off)
 
         icon_area_rect = QRect(rect)
         icon_area_rect.setRight(int(icon_area_rect.height() * 1.26))
@@ -172,20 +162,28 @@ class ToolBoxTabButton(QToolButton):
 
         p.save()
         text = fm.elidedText(opt.text, Qt.ElideRight, text_rect.width())
-        p.setPen(QPen(palette.color(QPalette.ButtonText)))
+        p.setPen(QPen(palette.color(foregroundrole)))
         p.setFont(opt.font)
 
         p.drawText(text_rect,
                    int(Qt.AlignVCenter | Qt.AlignLeft) | \
                    int(Qt.TextSingleLine),
                    text)
-        if pm:
-            pm_rect = QRect(QPoint(0, 0), pm.size())
-            centered_rect = QRect(pm_rect)
-            centered_rect.moveCenter(icon_area_rect.center())
-            p.drawPixmap(centered_rect, pm, pm_rect)
-        p.restore()
 
+        if not opt.icon.isNull():
+            if opt.state & QStyle.State_Enabled:
+                mode = QIcon.Normal
+            else:
+                mode = QIcon.Disabled
+            if opt.state & QStyle.State_On:
+                state = QIcon.On
+            else:
+                state = QIcon.Off
+            icon_area_rect = icon_area_rect
+            icon_rect = QRect(QPoint(0, 0), opt.iconSize)
+            icon_rect.moveCenter(icon_area_rect.center())
+            opt.icon.paint(p, icon_rect, Qt.AlignCenter, mode, state)
+        p.restore()
 
 class _ToolBoxScrollArea(QScrollArea):
     def eventFilter(self, obj, event):
