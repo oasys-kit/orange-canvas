@@ -21,6 +21,7 @@ Orange/version.py
 *.egg-info
 *.egg
 setuptools*.tar.gz
+ENV/*
 
 # Built documentation.
 docs/build/*
