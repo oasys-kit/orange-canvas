@@ -1,6 +1,3 @@
-# Ignore dot files.
-.*
-
 # Ignore backup files
 *.orig
 
