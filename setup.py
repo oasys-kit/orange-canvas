@@ -11,7 +11,7 @@ except ImportError:
 from setuptools import setup, find_packages
 
 NAME = "Oasys-Canvas-Core"
-VERSION = "0.0.10"
+VERSION = "0.0.11"
 DESCRIPTION = "Core component of Oasys Canvas"
 LONG_DESCRIPTION = open("README.txt", "rt").read()
 
