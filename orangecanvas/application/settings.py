@@ -434,6 +434,17 @@ class UserSettingsDialog(QMainWindow):
 
         tab.setLayout(form)
 
+        # Applications Specific
+        tab = QWidget()
+        self.addTab(tab, self.tr("Applications"),
+                    toolTip=self.tr("Applications Specific Options"))
+
+        form = QFormLayout()
+        tab.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+        tab.setLayout(form)
+
+
         # Categories Tab
         tab = QWidget()
         layout = QVBoxLayout()
