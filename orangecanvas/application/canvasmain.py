@@ -29,7 +29,7 @@ from PyQt5.QtCore import (
 
 import platform
 try:
-    if platform.system() == 'Darwin':
+    if platform.system() == 'Darwin' or platform.system() == 'Windows':
         from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
     elif platform.system() == 'Linux':
         from PyQt5.QtWebKitWidgets import QWebView

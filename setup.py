@@ -1,13 +1,4 @@
 #! /usr/bin/env python
-
-import sys
-
-try:
-    import setuptools
-except ImportError:
-    import ez_setup
-    ez_setup.use_setuptools()
-
 from setuptools import setup, find_packages
 
 NAME = "Oasys-Canvas-Core"
