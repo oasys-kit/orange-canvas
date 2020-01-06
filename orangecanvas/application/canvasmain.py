@@ -465,19 +465,28 @@ class CanvasMainWindow(QMainWindow):
                     icon=canvas_icons("Get Started.svg")
                     )
 
+        def oasys_school():
+            import webbrowser
+            webbrowser.open("https://github.com/oasys-kit/oasys_school")
+
         self.tutorials_action = \
-            QAction(self.tr("Tutorials"), self,
+            QAction(self.tr("OASYS School"), self,
                     objectName="tutorial-action",
                     toolTip=self.tr("Browse tutorials."),
-                    triggered=self.tutorial_scheme,
+                    triggered=oasys_school,
                     icon=canvas_icons("Tutorials.svg")
                     )
 
+        def web_site():
+            import webbrowser
+            webbrowser.open("https://www.aps.anl.gov/Science/Scientific-Software/OASYS")
+
+
         self.documentation_action = \
-            QAction(self.tr("Documentation"), self,
+            QAction(self.tr("Web Site"), self,
                     objectName="documentation-action",
                     toolTip=self.tr("View reference documentation."),
-                    triggered=self.documentation,
+                    triggered=web_site,
                     icon=canvas_icons("Documentation.svg")
                     )
 
@@ -1364,9 +1373,9 @@ class CanvasMainWindow(QMainWindow):
             if self.recent_scheme() == QDialog.Accepted:
                 dialog.accept()
 
-        def tutorial():
-            if self.tutorial_scheme() == QDialog.Accepted:
-                dialog.accept()
+        def oasys_school():
+            import webbrowser
+            webbrowser.open("https://github.com/oasys-kit/oasys_school")
 
         new_action = \
             QAction(self.tr("New"), dialog,
@@ -1396,10 +1405,10 @@ class CanvasMainWindow(QMainWindow):
                     )
 
         tutorials_action = \
-            QAction(self.tr("Tutorial"), dialog,
+            QAction(self.tr("OASYS School"), dialog,
                     objectName="welcome-tutorial-action",
                     toolTip=self.tr("Browse tutorial workflows."),
-                    triggered=tutorial,
+                    triggered=oasys_school,
                     icon=canvas_icons("Tutorials.svg")
                     )
 

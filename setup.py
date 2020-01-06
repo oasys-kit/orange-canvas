@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 NAME = "Oasys-Canvas-Core"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 DESCRIPTION = "Core component of Oasys Canvas"
 LONG_DESCRIPTION = open("README.txt", "rt").read()
 
