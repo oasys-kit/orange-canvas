@@ -166,12 +166,19 @@ class WidgetToolGrid(ToolGrid):
             button.installEventFilter(self.__statusTipPromoter)
             return
         elif event.type() == QEvent.ActionRemoved:
-            button = self.buttonForAction(event.action())
-            button.removeEventFilter(self.__dragListener)
-            button.removeEventFilter(self.__statusTipPromoter)
+            try: # upgrade to PyQt5 5.14
+                button = self.buttonForAction(event.action())
+                button.removeEventFilter(self.__dragListener)
+                button.removeEventFilter(self.__statusTipPromoter)
+            except:
+                pass
 
             # Removes the button
-            ToolGrid.actionEvent(self, event)
+            try: # upgrade to PyQt5 5.14
+                ToolGrid.actionEvent(self, event)
+            except:
+                pass
+
             return
         else:
             ToolGrid.actionEvent(self, event)

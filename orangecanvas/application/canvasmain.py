@@ -491,9 +491,10 @@ class CanvasMainWindow(QMainWindow):
 
         # Action group for for recent scheme actions
         self.recent_scheme_action_group = \
-            QActionGroup(self, exclusive=False,
+            QActionGroup(self,
                          objectName="recent-action-group",
                          triggered=self._on_recent_scheme_action)
+        self.recent_scheme_action_group.setExclusive(True) # upgrade to PyQt5 5.14
 
         self.recent_action = \
             QAction(self.tr("Browse Recent"), self,
