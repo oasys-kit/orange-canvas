@@ -22,3 +22,4 @@ ENV/*
 
 # Built documentation.
 docs/build/*
+/.idea/
