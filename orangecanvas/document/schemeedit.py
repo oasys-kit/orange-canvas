@@ -39,7 +39,7 @@ from PyQt5.QtGui import (
 )
 
 from PyQt5.QtCore import (
-    Qt, QObject, QEvent, QSignalMapper, QRectF, QCoreApplication
+    Qt, QObject, QEvent, QSignalMapper, QRectF, QCoreApplication, QSettings
 )
 
 from PyQt5.QtCore import pyqtProperty as Property, pyqtSignal as Signal
@@ -757,7 +757,10 @@ class SchemeEditWidget(QWidget):
 
         """
         if title is None:
-            title = self.enumerateTitle(description.name)
+            change_title = QSettings().value("oasys/change_title_on_new_duplicate", 0, int) == 1
+
+            if change_title: title = self.enumerateTitle(description.name)
+            else: title = description.name
 
         if position is None:
             position = self.nextPosition()
@@ -1579,10 +1582,14 @@ class SchemeEditWidget(QWidget):
                  if link.source_node in selection and
                     link.sink_node in selection]
         nodedups = [copy_node(node) for node in selection]
-        allnames = {node.title for node in scheme.nodes + nodedups}
-        for nodedup in nodedups:
-            nodedup.title = uniquify(
-                nodedup.title, allnames, pattern="{item} ({_})", start=1)
+
+        change_title = QSettings().value("oasys/change_title_on_new_duplicate", 0, int) == 1
+
+        if change_title:
+            allnames = {node.title for node in scheme.nodes + nodedups}
+            for nodedup in nodedups:
+                nodedup.title = uniquify(
+                    nodedup.title, allnames, pattern="{item} ({_})", start=1)
 
         node_to_dup = dict(zip(selection, nodedups))
 
