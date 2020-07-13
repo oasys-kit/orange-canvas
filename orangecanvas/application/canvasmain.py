@@ -17,7 +17,7 @@ import six
 from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QAction, QActionGroup, QMenu, QMenuBar, QDialog,
     QFileDialog, QMessageBox, QVBoxLayout, QSizePolicy,
-     QToolBar, QToolButton, QDockWidget, QApplication,
+     QToolBar, QToolButton, QDockWidget, QApplication, QInputDialog,
 )
 from PyQt5.Qt import QDesktopServices
 from PyQt5.QtGui import (
@@ -417,12 +417,11 @@ class CanvasMainWindow(QMainWindow):
                     icon=canvas_icons("Open.svg")
                     )
 
-        self.open_and_freeze_action = \
-            QAction(self.tr("Open and Freeze"), self,
-                    objectName="action-open-and-freeze",
-                    toolTip=self.tr("Open a new workflow and freeze signal "
-                                    "propagation."),
-                    triggered=self.open_and_freeze_scheme
+        self.open_remote_action = \
+            QAction(self.tr("Open Remote"), self,
+                    objectName="action-open-remote",
+                    toolTip=self.tr("Open a remote workflow."),
+                    triggered=self.open_remote_scheme
                     )
 
         self.save_action = \
@@ -612,7 +611,7 @@ class CanvasMainWindow(QMainWindow):
         file_menu = QMenu(self.tr("&File"), menu_bar)
         file_menu.addAction(self.new_action)
         file_menu.addAction(self.open_action)
-        file_menu.addAction(self.open_and_freeze_action)
+        file_menu.addAction(self.open_remote_action)
         file_menu.addAction(self.reload_last_action)
 
         # File -> Open Recent submenu
@@ -931,23 +930,29 @@ class CanvasMainWindow(QMainWindow):
         else:
             return QDialog.Rejected
 
-    def open_and_freeze_scheme(self):
-        """
-        Open a new scheme and freeze signal propagation. Return
-        QDialog.Rejected if the user canceled the operation and
-        QDialog.Accepted otherwise.
+    def open_remote_scheme(self):
+        """Open a new scheme. Return QDialog.Rejected if the user canceled
+        the operation and QDialog.Accepted otherwise.
 
         """
-        frozen = self.freeze_action.isChecked()
-        if not frozen:
-            self.freeze_action.trigger()
+        document = self.current_document()
+        if document.isModifiedStrict():
+            if self.ask_save_changes() == QDialog.Rejected:
+                return QDialog.Rejected
 
-        state = self.open_scheme()
-        if state == QDialog.Rejected:
-            # If the action was rejected restore the original frozen state
-            if not frozen:
-                self.freeze_action.trigger()
-        return state
+        dlg = QInputDialog(self)
+        dlg.setInputMode(QInputDialog.TextInput)
+        dlg.setWindowTitle(self.tr("Open Remote Orange Workflow File"))
+        dlg.setLabelText("URL:")
+        dlg.setTextValue(self.tr("http://"))
+        dlg.resize(500, 50)
+        ok = dlg.exec_()
+        url = dlg.textValue()
+
+        if ok == 1 and url:
+            return self.load_scheme(url)
+        else:
+            return QDialog.Rejected
 
     def open_scheme_file(self, filename):
         """
