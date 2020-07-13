@@ -118,9 +118,11 @@ class SchemeInfoDialog(QDialog):
         # Insert button box
         self.editor.layout().addRow(self.buttonbox)
 
+        '''
         widget = StyledWidget(self, objectName="auto-show-container")
         check_layout = QHBoxLayout()
         check_layout.setContentsMargins(20, 10, 20, 10)
+        
         self.__showAtNewSchemeCheck = \
             QCheckBox(self.tr("Show when I make a New Workflow."),
                       self,
@@ -138,6 +140,8 @@ class SchemeInfoDialog(QDialog):
         widget.setLayout(check_layout)
         widget.setSizePolicy(QSizePolicy.MinimumExpanding,
                              QSizePolicy.Fixed)
+        
+        '''
 
         if self.__autoCommit:
             self.buttonbox.accepted.connect(self.editor.commit)
@@ -146,7 +150,7 @@ class SchemeInfoDialog(QDialog):
         self.buttonbox.rejected.connect(self.reject)
 
         layout.addWidget(self.editor, stretch=10)
-        layout.addWidget(widget)
+        #layout.addWidget(widget)
 
         self.setLayout(layout)
 
