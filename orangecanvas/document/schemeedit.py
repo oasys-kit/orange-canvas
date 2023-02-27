@@ -667,6 +667,10 @@ class SchemeEditWidget(QWidget):
 
             self.__scene.set_scheme(scheme)
 
+            for node in scheme.nodes:
+                widget = scheme.widget_for_node(node)
+                widget.widgetNodeAdded(self.__scene.item_for_node(node))
+
             if self.__scheme:
                 self.__scheme.installEventFilter(self)
 
