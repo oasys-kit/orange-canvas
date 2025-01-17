@@ -13,8 +13,8 @@ from collections import namedtuple, deque
 from xml.sax.saxutils import escape
 from distutils import version
 
-import pkg_resources
-
+#import pkg_resources
+import importlib_metadata
 try:
     import docutils.core
 except ImportError:
@@ -213,7 +213,8 @@ class AddonManagerWidget(QWidget):
             if isinstance(item, Installed):
                 installed = True
                 ins, dist = item
-                name = dist.project_name
+                try:    name = dist.name
+                except: name = dist.project_name
                 summary = get_dist_meta(dist).get("Summary", "")
                 version = ins.version if ins is not None else dist.version
             else:
@@ -329,8 +330,8 @@ class AddonManagerWidget(QWidget):
         if isinstance(item, Installed):
             remote, dist = item
             if remote is None:
-                description = get_dist_meta(dist).get("Description")
-                description = description
+                #description = get_dist_meta(dist).get("Description")
+                description = get_dist_meta(dist).get("description")
             else:
                 description = remote.description
         else:
@@ -535,11 +536,13 @@ def installable_items(pypipackages, installed=[]):
     installed : list of pkg_resources.Distribution
     """
 
-    dists = {dist.project_name: dist for dist in installed}
+    try:    dists = {dist.name: dist for dist in installed}
+    except: dists = {dist.project_name: dist for dist in installed}
     packages = {pkg.name: pkg for pkg in pypipackages}
 
     # For every pypi available distribution not listed by
     # `installed`, check if it is actually already installed.
+    '''
     ws = pkg_resources.WorkingSet()
     for pkg_name in set(packages.keys()).difference(set(dists.keys())):
         try:
@@ -552,6 +555,20 @@ def installable_items(pypipackages, installed=[]):
         else:
             if d is not None:
                 dists[d.project_name] = d
+        '''
+    for pkg_name in set(packages.keys()).difference(set(dists.keys())):
+        try:
+            d = importlib_metadata.distribution(pkg_name)
+        except importlib_metadata.PackageNotFoundError:
+            pass
+        except importlib_metadata.VersionConflict:
+            pass
+        except ValueError:
+            pass
+        else:
+            if d is not None:
+                dists[d.metadata['Name']] = d
+
 
     project_names = unique(
         itertools.chain(packages.keys(), dists.keys())
@@ -649,9 +666,10 @@ class Installer(QObject):
 
         elif command == Uninstall:
             dist = pkg.local
-            self.setStatusMessage("Uninstalling {}".format(dist.project_name))
-
-            cmd = ["-m", "pip", "uninstall", "--yes", dist.project_name]
+            try:    self.setStatusMessage("Uninstalling {}".format(dist.name))
+            except: self.setStatusMessage("Uninstalling {}".format(dist.project_name))
+            try:    cmd = ["-m", "pip", "uninstall", "--yes", dist.name]
+            except: cmd = ["-m", "pip", "uninstall", "--yes", dist.project_name]
             process = python_process(cmd, bufsize=-1, universal_newlines=True)
             retcode, output = self.__subprocessrun(process)
 

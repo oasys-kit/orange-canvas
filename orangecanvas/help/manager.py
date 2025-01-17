@@ -12,9 +12,8 @@ from distutils.version import StrictVersion
 
 from operator import itemgetter
 
-import pkg_resources
-
-import six
+#import pkg_resources
+import importlib_metadata
 
 from .provider import IntersphinxHelpProvider
 
@@ -52,15 +51,19 @@ class HelpManager(QObject):
             return
 
         reg = self._registry
-        all_projects = set(desc.project_name for desc in reg.widgets()
-                           if desc.project_name is not None)
+
+        try:    all_projects = set(desc.project_name for desc in reg.widgets() if desc.project_name is not None)
+        except: all_projects = set(desc.name for desc in reg.widgets() if desc.name is not None)
 
         providers = []
         for project in set(all_projects) - set(self._providers.keys()):
             provider = None
+            #try:
+            #    dist = pkg_resources.get_distribution(project)
+            #except pkg_resources.ResolutionError:
             try:
-                dist = pkg_resources.get_distribution(project)
-            except pkg_resources.ResolutionError:
+                dist = importlib_metadata.distribution(project)
+            except importlib_metadata.PackageNotFoundError:
                 log.exception("Could not get distribution for '%s'", project)
             else:
                 try:
@@ -100,8 +103,10 @@ class HelpManager(QObject):
         desc = self.description_by_id(desc_id)
 
         provider = None
-        if desc.project_name:
-            provider = self._providers.get(desc.project_name)
+        try:
+            if desc.project_name: provider = self._providers.get(desc.project_name)
+        except:
+            if desc.name: provider = self._providers.get(desc.name)
 
         # TODO: Ensure initialization of the provider
         if provider:
@@ -128,7 +133,9 @@ def qurl_query_items(url):
 
 def get_help_provider_for_description(desc):
     if desc.project_name:
-        dist = pkg_resources.get_distribution(desc.project_name)
+        #dist = pkg_resources.get_distribution(desc.project_name)
+        try:    dist = importlib_metadata.distribution(desc.project_name)
+        except: dist = importlib_metadata.distribution(desc.name)
         return get_help_provider_for_distribution(dist)
 
 
@@ -138,7 +145,12 @@ def is_develop_egg(dist):
     """
     meta_provider = dist._provider
     egg_info_dir = os.path.dirname(meta_provider.egg_info)
-    egg_name = pkg_resources.to_filename(dist.project_name)
+    #egg_name = pkg_resources.to_filename(dist.project_name)
+    try:    dist = importlib_metadata.distribution(dist.project_name)
+    except: dist = importlib_metadata.distribution(dist.name)
+    # Manually convert the project name to a filename
+    egg_name = dist.metadata['Name'].replace('-', '_')
+
     return meta_provider.egg_info.endswith(egg_name + ".egg-info") \
            and os.path.exists(os.path.join(egg_info_dir, "setup.py"))
 
@@ -231,6 +243,7 @@ def get_dist_url(dist):
 
 
 def get_dist_meta(dist):
+    '''
     if dist.has_metadata("PKG-INFO"):
         # egg-info
         contents = dist.get_metadata("PKG-INFO")
@@ -239,13 +252,34 @@ def get_dist_meta(dist):
         contents = dist.get_metadata("METADATA")
     else:
         contents = None
+    '''
+    try:
+        contents = str(dist.metadata)
+    except:
+        contents = ""
+        for key in dist.metadata.json.keys():
+            new_key = str(key)
+            if not "_" in new_key: new_key = new_key[0].upper() + new_key[1:]
+            else:
+                if key == "author_email": new_key = 'Author-email'
+                elif key == "download_url": new_key = 'Download-URL'
+                else:
+                    tokens = new_key.split("_")
+                    new_key = ""
+                    for t in tokens: new_key += t[0].upper() + t[1:] + "-"
+                    new_key = new_key[:-1]
+            data = dist.metadata.json[key]
+            if type(data) == str: contents += new_key + ": " + data + "\n"
+            elif type(data) == list:
+                for item in data: contents += new_key + ": " + item + "\n"
 
     if contents is not None:
         return parse_meta(contents)
     else:
         return {}
 
-
+# Note this method is designed for pkg_resources, but it is never called
+# so I won't refactor it for importlib
 def create_intersphinx_provider(entry_point):
     locations = entry_point.load()
     dist = entry_point.dist
@@ -253,6 +287,7 @@ def create_intersphinx_provider(entry_point):
     replacements = {"PROJECT_NAME": dist.project_name,
                     "PROJECT_NAME_LOWER": dist.project_name.lower(),
                     "PROJECT_VERSION": dist.version}
+
     try:
         replacements["URL"] = get_dist_url(dist)
     except KeyError:
@@ -301,18 +336,22 @@ _providers = {"intersphinx": create_intersphinx_provider}
 
 
 def get_help_provider_for_distribution(dist):
-    entry_points = dist.get_entry_map().get("orange.canvas.help", {})
+    # entry_points = dist.get_entry_map().get("orange.canvas.help", {})
+    entry_points = {ep.value : ep for ep in dist.entry_points}.get("orange.canvas.help", {})
+
     provider = None
     for name, entry_point in entry_points.items():
         create = _providers.get(name, None)
         if create:
             try:
                 provider = create(entry_point)
-            except pkg_resources.DistributionNotFound as err:
-                log.warning("Unsatisfied dependencies (%r)", err)
+            #except pkg_resources.DistributionNotFound as err:
+            #    log.warning("Unsatisfied dependencies (%r)", err)
+            #    continue
+            except Exception as err:
+                #log.exception("Exception")
+                log.warning("Exception (%r)", err)
                 continue
-            except Exception:
-                log.exception("Exception")
             if provider:
                 log.info("Created %s provider for %s",
                          type(provider), dist)

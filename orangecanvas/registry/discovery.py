@@ -174,7 +174,11 @@ class WidgetDiscovery(object):
             cat_desc.name = name
 
         if distribution is not None:
-            cat_desc.project_name = distribution.project_name
+            # 17 Jan 2025: replaced pkg_resources with importlib (for now the third party version)
+            #              because of deprecation
+            #cat_desc.project_name = distribution.project_name
+            try:    cat_desc.project_name = distribution.name
+            except: cat_desc.project_name = distribution.project_name
 
         self.handle_category(cat_desc)
 
@@ -313,7 +317,11 @@ class WidgetDiscovery(object):
             desc.category = category_name
 
         if distribution is not None:
-            desc.project_name = distribution.project_name
+            # 17 Jan 2025: replaced pkg_resources with importlib (for now the third party version)
+            #              because of deprecation
+            #desc.project_name = distribution.project_name
+            try:    desc.project_name = distribution.name
+            except: desc.project_name = distribution.project_name
 
         return desc
 
@@ -333,7 +341,11 @@ class WidgetDiscovery(object):
         project_name = project_version = None
 
         if distribution is not None:
-            project_name = distribution.project_name
+            # 17 Jan 2025: replaced pkg_resources with importlib (for now the third party version)
+            #              because of deprecation
+            #project_name = distribution.project_name
+            try:    project_name = distribution.name
+            except: project_name = distribution.project_name
             project_version = distribution.version
 
         exc_type = exc_val = None
@@ -376,9 +388,17 @@ class WidgetDiscovery(object):
                 return False
 
             if distribution is not None:
-                if entry.project_name != distribution.project_name or \
-                        entry.project_version != distribution.version:
-                    return False
+                # 17 Jan 2025: replaced pkg_resources with importlib (for now the third party version)
+                #              because of deprecation
+                #if entry.project_name != distribution.project_name or \
+                try:
+                    if entry.project_name != distribution.name or \
+                            entry.project_version != distribution.version:
+                        return False
+                except:
+                    if entry.project_name != distribution.project_name or \
+                            entry.project_version != distribution.version:
+                        return False
 
             if entry.exc_type == WidgetSpecificationError:
                 return False
