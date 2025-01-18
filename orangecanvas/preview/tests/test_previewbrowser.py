@@ -10,13 +10,17 @@ from ..previewbrowser import PreviewBrowser
 from ..previewmodel import PreviewItem, PreviewModel
 from ... import config
 
-import pkg_resources
+#import pkg_resources
+import importlib_resources
 
-svg1 = pkg_resources.resource_string(config.__package__,
-                                     "icons/default-category.svg")
+ref = importlib_resources.files(config.__package__).joinpath("icons/default-category.svg")
+svg1 = ref.read_bytes()
 
-svg2 = pkg_resources.resource_string(config.__package__,
-                                     "icons/default-widget.svg")
+ref = importlib_resources.files(config.__package__).joinpath("icons/default-widget.svg")
+svg2 = ref.read_bytes()
+
+#svg1 = pkg_resources.resource_string(config.__package__, "icons/default-category.svg")
+#svg2 = pkg_resources.resource_string(config.__package__, "icons/default-widget.svg")
 
 
 def construct_test_preview_model():

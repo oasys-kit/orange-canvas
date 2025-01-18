@@ -15,8 +15,8 @@ import logging
 import types
 import pkgutil
 from collections import namedtuple
-import pkg_resources
-
+#import pkg_resources
+import importlib_metadata, importlib_resources
 import six
 
 from .description import (
@@ -82,13 +82,14 @@ class WidgetDiscovery(object):
 
         """
         if isinstance(entry_points_iter, six.string_types):
-            entry_points_iter = \
-                pkg_resources.iter_entry_points(entry_points_iter)
+            #entry_points_iter = pkg_resources.iter_entry_points(entry_points_iter)
+            entry_points_iter = importlib_metadata.entry_points(group=entry_points_iter)
 
         for entry_point in entry_points_iter:
             try:
                 point = entry_point.load()
-            except pkg_resources.DistributionNotFound:
+            #except pkg_resources.DistributionNotFound:
+            except importlib_metadata.PackageNotFoundError:
                 log.error("Could not load '%s' (unsatisfied dependencies).",
                           entry_point, exc_info=True)
                 continue
@@ -503,13 +504,16 @@ def module_modified_time(module):
     name = module.__name__
     module_filename = module.__file__
 
-    provider = pkg_resources.get_provider(name)
-    if provider.loader:
-        m_time = os.stat(provider.loader.archive)[stat.ST_MTIME]
-    else:
-        basename = os.path.basename(module_filename)
-        path = pkg_resources.resource_filename(name, basename)
-        m_time = os.stat(path)[stat.ST_MTIME]
+    #provider = pkg_resources.get_provider(name)
+    #if provider.loader:
+    #    m_time = os.stat(provider.loader.archive)[stat.ST_MTIME]
+    #else:
+    basename = os.path.basename(module_filename)
+    ref = importlib_resources.files(name).joinpath(basename)
+    with importlib_resources.as_file(ref) as path: path = str(path)
+    #path = pkg_resources.resource_filename(name, basename)
+    m_time = os.stat(path)[stat.ST_MTIME]
+
     return (module_filename, m_time)
 
 

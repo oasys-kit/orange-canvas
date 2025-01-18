@@ -9,7 +9,8 @@ import logging
 import pickle
 import itertools
 
-import pkg_resources
+#import pkg_resources
+import importlib_metadata, importlib_resources
 import six
 
 from PyQt5.QtGui import (
@@ -57,16 +58,20 @@ class default(object):
         """
         Return the main application icon.
         """
-        path = pkg_resources.resource_filename(
-            __name__, "icons/orange-canvas.svg"
-        )
-        return QIcon(path)
+        #path = pkg_resources.resource_filename(
+        #    __name__, "icons/orange-canvas.svg"
+        #)
+        ref = importlib_resources.files(__name__).joinpath("icons/orange-canvas.svg")
+        with importlib_resources.as_file(ref) as icon: return QIcon(str(icon))
 
     @staticmethod
     def splash_screen():
-        path = pkg_resources.resource_filename(
-            __name__, "icons/orange-splash-screen.png")
-        pm = QPixmap(path)
+        #path = pkg_resources.resource_filename(
+        #    __name__, "icons/orange-splash-screen.png")
+        #pm = QPixmap(path)
+
+        ref = importlib_resources.files(__name__).joinpath("icons/orange-splash-screen.png")
+        with importlib_resources.as_file(ref) as image: pm = QPixmap(str(image))
 
         version = QCoreApplication.applicationVersion()
         size = 21 if len(version) < 5 else 16
@@ -90,11 +95,14 @@ class default(object):
 
     @staticmethod
     def widgets_entry_points():
-        return pkg_resources.iter_entry_points(WIDGETS_ENTRY)
+        #return pkg_resources.iter_entry_points(WIDGETS_ENTRY)
+        return importlib_metadata.entry_points(group=WIDGETS_ENTRY)
 
     @staticmethod
     def addon_entry_points():
-        return pkg_resources.iter_entry_points(ADDONS_ENTRY)
+        #return pkg_resources.iter_entry_points(ADDONS_ENTRY)
+        return importlib_metadata.entry_points(group=ADDONS_ENTRY)
+
 
     @staticmethod
     def addon_pypi_search_spec():
@@ -102,7 +110,8 @@ class default(object):
 
     @staticmethod
     def tutorials_entry_points():
-        return pkg_resources.iter_entry_points(TUTORIALS_ENTRY)
+        #return pkg_resources.iter_entry_points(TUTORIALS_ENTRY)
+        return importlib_metadata.entry_points(group=TUTORIALS_ENTRY)
 
     @staticmethod
     def widget_discovery(*args, **kwargs):

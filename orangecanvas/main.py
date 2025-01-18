@@ -19,7 +19,8 @@ if sys.version_info < (3, 3):
 else:
     from contextlib import ExitStack
 
-import pkg_resources
+#import pkg_resources
+import importlib_metadata, importlib_resources
 
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import Qt, QDir, QSysInfo, QT_VERSION
@@ -224,7 +225,7 @@ def main(argv=None):
 
             pkg_name = __package__
             resource = "styles/" + stylesheet
-
+            '''
             if pkg_resources.resource_exists(pkg_name, resource):
                 stylesheet_string = \
                     pkg_resources.resource_string(pkg_name, resource).decode("utf-8")
@@ -235,18 +236,28 @@ def main(argv=None):
                     r"^\s@([a-zA-Z0-9_]+?)\s*:\s*([a-zA-Z0-9_/]+?);\s*$",
                     flags=re.MULTILINE
                 )
+            '''
+            ref = importlib_resources.files(pkg_name).joinpath(resource)
+            with importlib_resources.as_file(ref) as stylesheet_file:
+                if os.path.exists(str(stylesheet_file)):
+                    stylesheet_string = ref.read_bytes().decode()
 
-                matches = pattern.findall(stylesheet_string)
+                    ref = importlib_resources.files(pkg_name) / "styles"
+                    with importlib_resources.as_file(ref) as base:
+                        pattern = re.compile(
+                            r"^\s@([a-zA-Z0-9_]+?)\s*:\s*([a-zA-Z0-9_/]+?);\s*$",
+                            flags=re.MULTILINE
+                        )
 
-                for prefix, search_path in matches:
-                    QDir.addSearchPath(prefix, os.path.join(base, search_path))
-                    log.info("Adding search path %r for prefix, %r",
-                             search_path, prefix)
+                        matches = pattern.findall(stylesheet_string)
 
-                stylesheet_string = pattern.sub("", stylesheet_string)
+                        for prefix, search_path in matches:
+                            QDir.addSearchPath(prefix, os.path.join(base, search_path))
+                            log.info("Adding search path %r for prefix, %r", search_path, prefix)
 
-            else:
-                log.info("%r style sheet not found.", stylesheet)
+                    stylesheet_string = pattern.sub("", stylesheet_string)
+                else:
+                    log.info("%r style sheet not found.", stylesheet)
 
     # Add the default canvas_icons search path
     dirpath = os.path.abspath(os.path.dirname(__file__))

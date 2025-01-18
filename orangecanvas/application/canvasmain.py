@@ -10,7 +10,8 @@ import io
 import concurrent.futures
 from functools import partial
 
-import pkg_resources
+#import pkg_resources
+import importlib_resources
 
 import six
 
@@ -99,10 +100,13 @@ def canvas_icons(name):
     if icon_file.exists():
         return QIcon("canvas_icons:" + name)
     else:
-        return QIcon(pkg_resources.resource_filename(
-                      config.__name__,
-                      os.path.join("icons", name))
-                     )
+        ref = importlib_resources.files(config.__name__).joinpath(os.path.join("icons", name))
+        with importlib_resources.as_file(ref) as icon: return QIcon(str(icon))
+
+        #return QIcon(pkg_resources.resource_filename(
+        #              config.__name__,
+        #              os.path.join("icons", name))
+        #             )
 
 
 class FakeToolBar(QToolBar):
