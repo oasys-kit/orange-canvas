@@ -21,7 +21,6 @@ PACKAGE_DATA = {
 
 INSTALL_REQUIRES = ("six",)
 
-
 CLASSIFIERS = (
     "Development Status :: 1 - Planning",
     "Environment :: X11 Applications :: Qt",
